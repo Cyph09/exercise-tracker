@@ -29,7 +29,7 @@ router.put("/edit-user/:userId", editUser);
 router.delete("/remove-user/:userId", removeUser);
 
 // Retrieve exercise log of a user
-router.get("/log", getUserExercises);
+router.get("/log/:user", getUserExercises);
 
 // Add an exercise
 router.post("/add", addExercise);

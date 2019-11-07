@@ -12,6 +12,10 @@ const exerciseSchema = new Schema(
       type: Number,
       required: true
     },
+    date: {
+      type: Date,
+      required: true
+    },
 
     user: {
       type: Schema.Types.ObjectId,
