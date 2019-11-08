@@ -3,32 +3,46 @@ const Exercise = require("../models/exercise");
 
 exports.getUserExercises = (req, res, next) => {
   const username = req.params.user;
+  let foundUser;
   let userId;
+  let totalUserExercises;
 
-  User.find({ username })
+  User.findOne({ username })
     .then(user => {
-      if (!user.length) {
+      if (!user) {
         const error = new Error("User not found.");
         error.statusCode = 404;
         throw error;
       }
-      console.log(user);
-      userId = user[0]._id;
-      console.log(userId);
+      foundUser = user;
+      userId = user._id;
       return userId;
     })
     .then(() => {
-      return Exercise.find({ user: userId });
-    })
-    .then(exercises => {
-      if (!exercises) {
-        const error = new Error("No exercise found.");
-        error.statusCode = 404;
-        throw error;
-      }
-      res
-        .status(200)
-        .json({ message: "Exercises fetched successfully", exercises });
+      return Exercise.find({ user: userId })
+        .countDocuments()
+        .then(count => {
+          totalUserExercises = count;
+          return Exercise.find({ user: userId });
+        })
+        .then(exercises => {
+          if (!exercises.length) {
+            const error = new Error("Currently the user has no any exercise.");
+            error.statusCode = 404;
+            throw error;
+          }
+          return exercises;
+        })
+        .then(exercises => {
+          res.status(200).json({
+            message: "User exercises fetched successfully",
+            user: {
+              username: foundUser.username,
+              exercises: exercises,
+              totalExercises: totalUserExercises
+            }
+          });
+        });
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -51,17 +65,26 @@ exports.addExercise = (req, res, next) => {
       const userId = user._id;
       let createdDate = date ? date : new Date();
       const exercise = new Exercise({
-        user: userId,
         description,
         duration,
-        date: createdDate
+        date: createdDate,
+        user: userId
       });
-      return exercise.save();
-    })
-    .then(exercise => {
-      res
-        .status(201)
-        .json({ message: "Exercise created successfully!", exercise });
+      exercise
+        .save()
+        .then(exercise => {
+          console.log(exercise);
+          return User.findById(userId);
+        })
+        .then(user => {
+          user.exercises.push(exercise);
+          return user.save();
+        })
+        .then(user => {
+          res
+            .status(201)
+            .json({ message: "Exercise added successfully!", user });
+        });
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -73,9 +96,9 @@ exports.addExercise = (req, res, next) => {
 
 exports.editExercise = (req, res, next) => {
   // TODO: Check for validation errors
-  const {}
+  // const {}
 };
 
 exports.removeExercise = (req, res, next) => {
-  res.json("remove Exercise");
+  const exerciseId = req.params.exerciseId;
 };

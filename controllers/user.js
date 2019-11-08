@@ -25,6 +25,7 @@ exports.addUser = (req, res, next) => {
   User.findOne({ username })
     .then(user => {
       if (user) {
+        console.log(user);
         const error = new Error(
           "User already exists. Please choose another user name."
         );
