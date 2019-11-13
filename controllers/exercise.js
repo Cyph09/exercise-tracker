@@ -2,7 +2,7 @@ const User = require("../models/user");
 const Exercise = require("../models/exercise");
 
 exports.getUserExercises = (req, res, next) => {
-  const username = req.params.user;
+  const username = req.query.user;
   let foundUser;
   let userId;
   let totalUserExercises;
@@ -23,7 +23,9 @@ exports.getUserExercises = (req, res, next) => {
         .countDocuments()
         .then(count => {
           totalUserExercises = count;
-          return Exercise.find({ user: userId });
+          return Exercise.find({
+            user: userId
+          });
         })
         .then(exercises => {
           if (!exercises.length) {
@@ -38,8 +40,8 @@ exports.getUserExercises = (req, res, next) => {
             message: "User exercises fetched successfully",
             user: {
               username: foundUser.username,
-              exercises: exercises,
-              totalExercises: totalUserExercises
+              totalExercises: totalUserExercises,
+              exercises: exercises
             }
           });
         });
