@@ -2,49 +2,39 @@ const User = require("../models/user");
 const Exercise = require("../models/exercise");
 
 exports.getUserExercises = (req, res, next) => {
-  const username = req.query.user;
-  let foundUser;
-  let userId;
+  const { userId, startDate, endDate, limit } = req.query;
   let totalUserExercises;
 
-  User.findOne({ username })
-    .then(user => {
-      if (!user) {
-        const error = new Error("User not found.");
+  const query = { user: userId };
+
+  if (startDate) {
+    query.date = { $gte: new Date(startDate) };
+  }
+
+  if (endDate) {
+    query.date = { $lt: new Date(endDate) };
+  }
+
+  Exercise.find(query)
+    .limit(parseInt(limit, 10) || 10)
+    .countDocuments()
+    .then(count => {
+      totalUserExercises = count;
+      return Exercise.find(query).limit(parseInt(limit, 10) || 10);
+    })
+    .then(exercises => {
+      if (!exercises.length) {
+        const error = new Error("Currently the user has no any exercise.");
         error.statusCode = 404;
         throw error;
       }
-      foundUser = user;
-      userId = user._id;
-      return userId;
-    })
-    .then(() => {
-      return Exercise.find({ user: userId })
-        .countDocuments()
-        .then(count => {
-          totalUserExercises = count;
-          return Exercise.find({
-            user: userId
-          });
-        })
-        .then(exercises => {
-          if (!exercises.length) {
-            const error = new Error("Currently the user has no any exercise.");
-            error.statusCode = 404;
-            throw error;
-          }
-          return exercises;
-        })
-        .then(exercises => {
-          res.status(200).json({
-            message: "User exercises fetched successfully",
-            user: {
-              username: foundUser.username,
-              totalExercises: totalUserExercises,
-              exercises: exercises
-            }
-          });
-        });
+      res.status(200).json({
+        message: "User exercises fetched successfully",
+        user: {
+          totalExercises: totalUserExercises,
+          exercises: exercises
+        }
+      });
     })
     .catch(err => {
       if (!err.statusCode) {
