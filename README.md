@@ -27,7 +27,7 @@ Exercise tracker API made in Nodejs, express, MongoDB.
 	"username": "sumaiyya",
 	"description":"Skeeing",
 	"duration": "350",
-	"date":"2019-11-09T02:05:39.559Z" }`
+	"date":"2019-11-09" }`
    
    6. Edit exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/edit-exercise/:exerciseId
    
