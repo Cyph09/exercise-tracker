@@ -8,3 +8,9 @@ Exercise tracker API made in Nodejs, express, MongoDB.
   5. I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the us      object with added array log and count (total exercise count).
   6. I can retrieve part of the log of any user by also passing along optional parameters of from & to or limit. (Date format yyyy-mm-dd,     limit = int)
 
+## End Points
+  1. Add new user
+     https://tranquil-brook-43857.herokuapp.com/api/exercise/new-user
+     
+  2. Retrieve all users
+      https://tranquil-brook-43857.herokuapp.com/api/exercise/users
