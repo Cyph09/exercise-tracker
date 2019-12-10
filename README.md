@@ -9,10 +9,19 @@ Exercise tracker API made in Nodejs, express, MongoDB.
   6. I can retrieve part of the log of any user by also passing along optional parameters of from & to or limit. (Date format yyyy-mm-dd,     limit = int)
 
 ## End Points
-  1. Add new user
-  
+  1. Add new user:
      https://tranquil-brook-43857.herokuapp.com/api/exercise/new-user
      
-  2. Retrieve all users
-  
+  2. Retrieve all users:
       https://tranquil-brook-43857.herokuapp.com/api/exercise/users
+      
+  3. Edit user: 
+     https://tranquil-brook-43857.herokuapp.com/api/exercise/edit-user/:userId
+     
+   4. Remove user: https://tranquil-brook-43857.herokuapp.com/api/exercise/remove-user/:userId
+   
+   5. Add exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/add
+   
+   6. Edit exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/edit-exercise/:exerciseId
+   
+   7. Remove exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/remove-exercise/exerciseId
