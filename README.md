@@ -10,7 +10,9 @@ Exercise tracker API made in Nodejs, express, MongoDB.
 
 ## End Points
   1. Add new user
+  
      https://tranquil-brook-43857.herokuapp.com/api/exercise/new-user
      
   2. Retrieve all users
+  
       https://tranquil-brook-43857.herokuapp.com/api/exercise/users
