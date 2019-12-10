@@ -22,12 +22,12 @@ Exercise tracker API made in Nodejs, express, MongoDB.
    4. Remove user: https://tranquil-brook-43857.herokuapp.com/api/exercise/remove-user/:userId
    
    5. Add exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/add
-      >Just pass JSON like so: ```{
+      >Just pass JSON like so: 
+      `{
 	"username": "sumaiyya",
 	"description":"Skeeing",
 	"duration": "350",
-	"date":"2019-11-09T02:05:39.559Z"
-}```
+	"date":"2019-11-09T02:05:39.559Z" }`
    
    6. Edit exercise: https://tranquil-brook-43857.herokuapp.com/api/exercise/edit-exercise/:exerciseId
    
